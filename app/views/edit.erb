@@ -1,5 +1,4 @@
 <section>
-  <h1>メモアプリ</h1>
   <form action="<%= "/memos/#{@memo_id}" %>" method="post">
     <input type="hidden" name="_method" value="patch" />
     <div>
@@ -11,7 +10,7 @@
       <input type="text" name="content" id="content" value="<%= @content %>" required>
     </div>
     <div>
-      <input type="submit" value="保存">
+      <input type="submit" value="変更">
     </div>
   </form>
 </section>

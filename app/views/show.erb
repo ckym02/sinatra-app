@@ -1,7 +1,11 @@
 <section>
-  <h1>メモアプリ</h1>
   <div>
     <p><%= @subject %></p>
     <p><%= @content %></p>
   </div>
+  <button id="button-tag" onclick='clickButton("<%= "http://localhost:4567/memos/#{@memo_id}/edit" %>")'>変更</button>
+  <form action="<%= "/memos/#{@memo_id}" %>" method="post">
+    <input type="hidden" name="_method" value="delete" />
+    <input type="submit" value="削除" onClick="return confirm('本当に削除しますか？')">
+  </form>
 </section>

@@ -4,6 +4,7 @@ require "yaml"
 
 # メモ一覧
 get '/memos' do
+  @title = 'メモ一覧'
   File.open('memos.yml') do |file|
     file = Psych.load(file, permitted_classes: [Time])
     @memos = file[1]
@@ -11,40 +12,18 @@ get '/memos' do
   erb :index
 end
 
-# メモ作成画面
+# メモ登録画面
 get '/memos/new' do
+  @title = 'メモ登録'
   erb :new
 end
 
-# メモ詳細
-get '/memos/:memo_id' do
-  File.open('memos.yml') do |f|
-    file = Psych.load(f, permitted_classes: [Time])
-    @subject = file[1][params[:memo_id].to_i]['subject']
-    @content = file[1][params[:memo_id].to_i]['content']
-  end
-  erb :show
-end
-
-# メモ内容編集
-# ファイルの内容を変更する
-get '/memos/:memo_id/edit' do
-  @memo_id = params[:memo_id].to_i
-  File.open('memos.yml') do |f|
-    file = Psych.load(f, permitted_classes: [Time])
-    @subject = file[1][@memo_id]['subject']
-    @content = file[1][@memo_id]['content']
-  end
-  erb :edit
-end
-
-# メモ新規登録
-# showページにリダイレクトする
+# メモ登録処理
 post '/memos' do
   all_count = 0
   all_memos = ''
   File.open('memos.yml') do |file|
-    all_memos = Psych.load(file)
+    all_memos = Psych.load(file, permitted_classes: [Time])
     all_count = all_memos[1].keys.count
   end
 
@@ -63,7 +42,62 @@ post '/memos' do
   redirect to('/memos')
 end
 
-# メモ内容編集の更新処理
+# メモ詳細画面
+get '/memos/:memo_id' do
+  @title = 'メモ詳細'
+  @memo_id = params[:memo_id].to_i
+  File.open('memos.yml') do |file|
+    file = Psych.load(file, permitted_classes: [Time])
+    @subject = file[1][@memo_id]['subject']
+    @content = file[1][@memo_id]['content']
+  end
+  erb :show
+end
+
+# メモ編集画面
+get '/memos/:memo_id/edit' do
+  @title = 'メモ編集'
+  @memo_id = params[:memo_id].to_i
+  File.open('memos.yml') do |file|
+    file = Psych.load(file, permitted_classes: [Time])
+    @subject = file[1][@memo_id]['subject']
+    @content = file[1][@memo_id]['content']
+  end
+  erb :edit
+end
+
+# メモ編集更新処理
 patch '/memos/:memo_id' do
-  "Hello World"
+  all_memos = ''
+  File.open('memos.yml') do |file|
+    all_memos = Psych.load(file, permitted_classes: [Time])
+  end
+
+  user_id = 1
+  date = Time.now
+  File.open('memos.yml', 'w') do |file|
+    all_memos[1][params[:memo_id].to_i] = 
+      {
+        'subject' => params[:subject],
+        'content' => params[:content],
+        'updated_at' => date
+      }
+    Psych.dump(all_memos, file)
+  end
+  redirect to('/memos')
+end
+
+# メモ削除処理
+delete '/memos/:memo_id' do
+  all_memos = ''
+  File.open('memos.yml') do |file|
+    all_memos = Psych.load(file, permitted_classes: [Time])
+  end
+
+  user_id = 1
+  File.open('memos.yml', 'w') do |file|
+    all_memos[1].delete(params[:memo_id].to_i)
+    Psych.dump(all_memos, file)
+  end
+  redirect to('/memos')
 end

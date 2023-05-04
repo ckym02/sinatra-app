@@ -1,10 +1,9 @@
 <section>
-  <h1>メモアプリ</h1>
   <button onclick="location.href='http://localhost:4567/memos/new'">追加する</button>
   <ul>
-    <% @memos.each_with_index do |memo, index| %>
+    <% @memos.each do |memo| %>
       <li>
-        <a href="<%= "http://localhost:4567/memos/#{index + 1}" %>" ><%= memo[1]['subject'] %></a>
+        <a href="<%= "http://localhost:4567/memos/#{memo[0]}" %>" ><%= memo[1]['subject'] %></a>
       </li>
     <% end %>
   </ul>
