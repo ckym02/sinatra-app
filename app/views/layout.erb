@@ -2,6 +2,7 @@
 <html>
   <head>
     <title><%= @title %></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="/css/stylesheet.css">
     <script type="text/javascript" src="/javascript/index.js"></script>
   </head>
@@ -9,7 +10,9 @@
     <header class="app-header">
       <h1>メモアプリ</h1>
     </header>
-    <%= yield %>
+    <section>
+      <%= yield %>
+    </section>
     <%# <footer>...</footer> %>
   </body>
 </html>

@@ -24,7 +24,7 @@ post '/memos' do
   all_memos = ''
   File.open('memos.yml') do |file|
     all_memos = Psych.load(file, permitted_classes: [Time])
-    all_count = all_memos[1].keys.count
+    all_count = all_memos[1].keys.last
   end
 
   user_id = 1

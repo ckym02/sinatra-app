@@ -2,6 +2,15 @@ body {
   padding: 2%;
 }
 
+section {
+  padding: 0 10%;
+}
+
 .app-header {
   text-align: left;
+}
+
+.flex-box {
+  display: flex;
+  justify-content: space-between;
 }

@@ -1,16 +1,14 @@
-<section>
-  <form action="<%= "/memos/#{@memo_id}" %>" method="post">
-    <input type="hidden" name="_method" value="patch" />
-    <div>
-      <label for="subject">題名を入力してください。</label>
-      <input type="text" name="subject" id="subject" value="<%= @subject %>" required>
-    </div>
-    <div>
-      <label for="content">詳細を入力してください。</label>
-      <input type="text" name="content" id="content" value="<%= @content %>" required>
-    </div>
-    <div>
-      <input type="submit" value="変更">
-    </div>
-  </form>
-</section>
+<form action="<%= "/memos/#{@memo_id}" %>" method="post">
+  <input type="hidden" name="_method" value="patch" />
+  <div>
+    <label for="subject">題名を入力してください。</label>
+    <input type="text" name="subject" id="subject" value="<%= @subject %>" required>
+  </div>
+  <div>
+    <label for="content">詳細を入力してください。</label>
+    <input type="text" name="content" id="content" value="<%= @content %>" required>
+  </div>
+  <div>
+    <input type="submit" value="変更">
+  </div>
+</form>

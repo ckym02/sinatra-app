@@ -1,10 +1,8 @@
-<section>
-  <button onclick="location.href='http://localhost:4567/memos/new'">追加する</button>
-  <ul>
-    <% @memos.each do |memo| %>
-      <li>
-        <a href="<%= "http://localhost:4567/memos/#{memo[0]}" %>" ><%= memo[1]['subject'] %></a>
-      </li>
-    <% end %>
-  </ul>
-</section>
+<button onclick="location.href='http://localhost:4567/memos/new'">追加する</button>
+<ul>
+  <% @memos.each do |memo| %>
+    <li>
+      <a href="<%= "http://localhost:4567/memos/#{memo[0]}" %>" ><%= memo[1]['subject'] %></a>
+    </li>
+  <% end %>
+</ul>
