@@ -2,8 +2,21 @@ require 'sinatra'
 require 'sinatra/reloader'
 require "yaml"
 
+# set :show_exceptions, false
+
+class NotFoundError < StandardError; end
+
+not_found do
+  'This is nowhere to be found.'
+end
+
+error NotFoundError do
+  status 404
+  'This is nowhere to be found.'
+end
+
 # メモ一覧
-get '/memos' do
+get '/memos/?' do
   @title = 'メモ一覧'
   File.open('memos.yml') do |file|
     file = Psych.load(file, permitted_classes: [Time])
@@ -13,7 +26,7 @@ get '/memos' do
 end
 
 # メモ登録画面
-get '/memos/new' do
+get '/memos/new/?' do
   @title = 'メモ登録'
   erb :new
 end
@@ -39,15 +52,17 @@ post '/memos' do
       }
     Psych.dump(all_memos, file)
   end
-  redirect to('/memos')
+  redirect to '/memos'
 end
 
 # メモ詳細画面
-get '/memos/:memo_id' do
+get %r{/memos/([1-9]+)/?} do
   @title = 'メモ詳細'
-  @memo_id = params[:memo_id].to_i
+  @memo_id = params[:captures][0].to_i
+
   File.open('memos.yml') do |file|
     file = Psych.load(file, permitted_classes: [Time])
+    raise NotFoundError if file[1][@memo_id].nil?
     @subject = file[1][@memo_id]['subject']
     @content = file[1][@memo_id]['content']
   end
@@ -55,11 +70,12 @@ get '/memos/:memo_id' do
 end
 
 # メモ編集画面
-get '/memos/:memo_id/edit' do
+get %r{/memos/([1-9]+)/edit/?} do
   @title = 'メモ編集'
-  @memo_id = params[:memo_id].to_i
+  @memo_id = params[:captures][0].to_i
   File.open('memos.yml') do |file|
     file = Psych.load(file, permitted_classes: [Time])
+    raise NotFoundError if file[1][@memo_id].nil?
     @subject = file[1][@memo_id]['subject']
     @content = file[1][@memo_id]['content']
   end
@@ -76,6 +92,7 @@ patch '/memos/:memo_id' do
   user_id = 1
   date = Time.now
   File.open('memos.yml', 'w') do |file|
+    raise NotFoundError if file[1][@memo_id].nil?
     all_memos[1][params[:memo_id].to_i] = 
       {
         'subject' => params[:subject],
@@ -84,7 +101,7 @@ patch '/memos/:memo_id' do
       }
     Psych.dump(all_memos, file)
   end
-  redirect to('/memos')
+  redirect to "/memos/#{params[:memo_id]}"
 end
 
 # メモ削除処理
