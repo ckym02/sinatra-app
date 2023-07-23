@@ -1,13 +1,23 @@
+/* html { font-size: 10px; } */
+
 body {
   padding: 2%;
 }
 
 section {
-  padding: 0 10%;
+  /* padding: 0 10%; */
 }
 
 .app-header {
   text-align: left;
+}
+
+.memo-field {
+  padding: 1rem;
+  margin-bottom: 0;
+  border: 1px solid #ced4da;
+  /* margin-top: 1rem;
+  margin-bottom: 1rem; */
 }
 
 .flex-box {

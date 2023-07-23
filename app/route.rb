@@ -20,7 +20,7 @@ get '/memos/?' do
   @title = 'メモ一覧'
   File.open('memos.yml') do |file|
     file = Psych.load(file, permitted_classes: [Time])
-    @memos = file[1]
+    @memos = file[1].select {|_, value| value['deleted_at'] == nil}
   end
   erb :index
 end
@@ -48,7 +48,9 @@ post '/memos' do
       {
         'subject' => params[:subject],
         'content' => params[:content],
-        'created_at' => date
+        'created_at' => date,
+        'updated_at' => nil,
+        'deleted_at' => nil,
       }
     Psych.dump(all_memos, file)
   end
@@ -89,16 +91,14 @@ patch '/memos/:memo_id' do
     all_memos = Psych.load(file, permitted_classes: [Time])
   end
 
+  raise NotFoundError if all_memos[1][params[:memo_id].to_i].nil?
+
   user_id = 1
   date = Time.now
   File.open('memos.yml', 'w') do |file|
-    raise NotFoundError if file[1][@memo_id].nil?
-    all_memos[1][params[:memo_id].to_i] = 
-      {
-        'subject' => params[:subject],
-        'content' => params[:content],
-        'updated_at' => date
-      }
+    all_memos[1][params[:memo_id].to_i]['subject'] = params[:subject]
+    all_memos[1][params[:memo_id].to_i]['content'] = params[:content]
+    all_memos[1][params[:memo_id].to_i]['updated_at'] = date
     Psych.dump(all_memos, file)
   end
   redirect to "/memos/#{params[:memo_id]}"
@@ -111,9 +111,12 @@ delete '/memos/:memo_id' do
     all_memos = Psych.load(file, permitted_classes: [Time])
   end
 
+  raise NotFoundError if all_memos[1][params[:memo_id].to_i].nil?
+
   user_id = 1
+  date = Time.now
   File.open('memos.yml', 'w') do |file|
-    all_memos[1].delete(params[:memo_id].to_i)
+    all_memos[1][params[:memo_id].to_i]['deleted_at'] = date
     Psych.dump(all_memos, file)
   end
   redirect to('/memos')

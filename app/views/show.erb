@@ -1,8 +1,14 @@
-<div>
-  <p><%= @subject %></p>
-  <p><%= @content %></p>
+<div class="row">
+  <div class="mb-3 mt-3">
+    <p>題名</p>
+    <p class="memo-field"><%= @subject %></p>
+  </div>
+  <div class="mb-3 mt-3">
+    <p>詳細</p>
+    <p class="memo-field"><%= @content %></p>
+  </div>
 </div>
-<div class="flex-box gap-2 col-6 mx-auto">
+<div class="flex-box col-3 mx-auto mt-5">
   <button id="button-tag" class="btn btn-secondary btn-lg" onclick='clickButton("<%= "/memos/#{@memo_id}/edit" %>")'>変更</button>
   <form action="<%= "/memos/#{@memo_id}" %>" method="post">
     <input type="hidden" name="_method" value="delete" />

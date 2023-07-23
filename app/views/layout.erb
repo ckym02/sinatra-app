@@ -7,12 +7,17 @@
     <script type="text/javascript" src="/javascript/index.js"></script>
   </head>
   <body>
-    <header class="app-header">
-      <h1>メモアプリ</h1>
-    </header>
-    <section>
-      <%= yield %>
-    </section>
+    <section class="container">
+      <div class="row justify-content-md-center">
+        <header class="app-header text-center col col-sm-12">
+          <h1>メモアプリ</h1>
+        </header>
+
+        <section class="col col-lg-8">
+          <%= yield %>
+          </div>
+        </section>
+      </div>
     <%# <footer>...</footer> %>
   </body>
 </html>
