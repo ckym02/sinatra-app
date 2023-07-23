@@ -1,0 +1,12 @@
+<div class="row"> 
+  <div class="col-sm-3 offset-sm-10 mt-2">
+    <button class="btn btn-secondary btn-lg" onclick="location.href='/memos/new'">追加する</button>
+  </div>
+</div>
+<ul>
+  <% @memos.each do |memo| %>
+    <li>
+      <a href="<%= "/memos/#{memo[0]}" %>" ><%= memo[1]['subject'] %></a>
+    </li>
+  <% end %>
+</ul>

@@ -1,0 +1,14 @@
+<form action="/memos" method="post">
+  <div class="mb-3">
+    <label for="subject" class="form-label">題名を入力してください。</label>
+    <input type="text" name="subject" id="subject" class="form-control" required>
+  </div>
+  <div class="mb-3">
+    <label for="content" class="form-label">詳細を入力してください。</label>
+    <input type="text" name="content" id="content" class="form-control" required>
+  </div>
+  <div class="flex-box col-3 mx-auto mt-5">
+    <input type="submit" class="btn btn-secondary btn-lg" value="保存">
+    <button id="button-tag" class="btn btn-secondary btn-lg" onclick='clickButton("<%= "/memos" %>")'>戻る</button>
+  </div>
+</form>

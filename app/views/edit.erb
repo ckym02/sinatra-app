@@ -1,0 +1,15 @@
+<form action="<%= "/memos/#{@memo_id}" %>" method="post">
+  <input type="hidden" name="_method" value="patch" />
+  <div class="mb-3">
+    <label for="subject" class="form-label">題名を入力してください。</label>
+    <input type="text" name="subject" id="subject" class="form-control" value="<%= @subject %>" required>
+  </div>
+  <div class="mb-3">
+    <label for="content" class="form-label">詳細を入力してください。</label>
+    <input type="text" name="content" id="content" class="form-control" value="<%= @content %>" required>
+  </div>
+  <div class="flex-box col-3 mx-auto mt-5">
+    <input type="submit" class="btn btn-secondary btn-lg" value="保存">
+    <button id="button-tag" class="btn btn-secondary btn-lg" onclick='clickButton("<%= "/memos/#{@memo_id}/edit" %>")'>戻る</button>
+  </div>
+</form>
